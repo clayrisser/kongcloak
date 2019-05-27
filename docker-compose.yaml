@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  kong:
+    image: codejamninja/kong-oidc:latest
+    network_mode: host
+    ports:
+      - 8000:8000
+      - 8001:8001
+      - 8443:8443
+      - 8444:8444
+    environment:
+      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: localhost
+      KONG_PG_PASSWORD: postgres
+      KONG_PG_USER: postgres
+
+  keycloak:
+    image: jboss/keycloak:6.0.1
+    network_mode: host
+    ports:
+      - 8080:8080
+    environment:
+      DB_ADDR: localhost
+      DB_DATABASE: keycloak
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_VENDOR: POSTGRES
+      KEYCLOAK_PASSWORD: pass
+      KEYCLOAK_USER: admin
+
+  postgres:
+    image: postgres
+    network_mode: host
+    environment:
+      POSTGRES_DB: keycloak

@@ -1,0 +1,26 @@
+name: kongcloak
+home: https://github.com/codejamninja/kongcloak
+icon: https://konghq.com/wp-content/themes/konghq/assets/img/gradient-logo.svg
+version: 0.0.1
+appVersion: latest
+description: 'secure microservices with kong and keycloak'
+keywords:
+  - kongcloak
+  - kong
+  - keycloak
+  - microservice
+  - micro
+  - service
+  - oauth
+  - openid
+  - oauth2
+  - ldap
+  - saml
+  - acl
+  - gateway
+  - https://konghq.com/wp-content/themes/konghq/assets/img/gradient-logo.svg
+sources:
+  - https://github.com/codejamninja/kongcloak
+maintainers:
+  - name: 'Jam Risser'
+    email: jam@codejam.ninja

@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  kong:
+    image: codejamninja/kong-oidc:latest
+    links:
+      - postgres:postgres
+    ports:
+      - 8000:8000
+      - 8001:8001
+      - 8443:8443
+      - 8444:8444
+    environment:
+      KONG_PG_DATABASE: kong
+      KONG_PG_HOST: postgres
+      KONG_PG_PASSWORD: postgres
+      KONG_PG_USER: postgres
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: keycloak

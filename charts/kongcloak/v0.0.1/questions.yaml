@@ -1,0 +1,248 @@
+categories:
+  - Server
+questions:
+
+# Images
+  - variable: images.kong.repository
+    default: codejamninja/kong-oidc
+    description: ''
+    type: string
+    required: true
+    label: 'kong repository'
+    group: Images
+  - variable: images.kong.tag
+    default: 0.0.1
+    description: ''
+    type: string
+    required: true
+    label: 'kong tag'
+    group: Images
+  - variable: images.konga.repository
+    default: pantsel/konga
+    description: ''
+    type: string
+    required: true
+    label: 'konga repository'
+    group: Images
+  - variable: images.konga.tag
+    default: 0.14.1
+    description: ''
+    type: string
+    required: true
+    label: 'konga tag'
+    group: Images
+  - variable: images.keycloak.repository
+    default: jboss/keycloak
+    description: ''
+    type: string
+    required: true
+    label: 'keycloak repository'
+    group: Images
+  - variable: images.keycloak.tag
+    default: 6.0.1
+    description: ''
+    type: string
+    required: true
+    label: 'keycloak tag'
+    group: Images
+  - variable: images.postgres.repository
+    default: postgres
+    description: ''
+    type: string
+    required: true
+    label: 'postgres repository'
+    group: Images
+  - variable: images.postgres.tag
+    default: latest
+    description: ''
+    type: string
+    required: true
+    label: 'postgres tag'
+    group: Images
+
+# Config
+  - variable: config.keycloakUser
+    default: admin
+    description: ''
+    type: string
+    required: true
+    label: 'keycloak user'
+    group: Config
+  - variable: config.keycloakPassword
+    default: pass
+    description: ''
+    type: password
+    required: true
+    label: 'keycloak password'
+    group: Config
+
+# Postgres Config
+  - variable: config.postgres.internal
+    default: true
+    description: ''
+    type: boolean
+    required: true
+    label: internal
+    group: 'Postgres Config'
+  - variable: config.postgres.host
+    default: ''
+    description: ''
+    type: string
+    required: false
+    label: host
+    show_if: config.postgres.internal=false
+    group: 'Postgres Config'
+  - variable: config.postgres.database
+    default: kongcloak
+    description: ''
+    type: string
+    required: true
+    label: database
+    group: 'Postgres Config'
+  - variable: config.postgres.password
+    default: postgres
+    description: ''
+    type: password
+    required: true
+    label: password
+    group: 'Postgres Config'
+  - variable: config.postgres.port
+    default: 5432
+    description: ''
+    type: int
+    min: 0
+    max: 50000
+    required: true
+    label: port
+    show_if: config.postgres.internal=false
+    group: 'Postgres Config'
+  - variable: config.postgres.url
+    default: ''
+    description: ''
+    type: string
+    required: false
+    label: url
+    show_if: config.postgres.internal=false
+    group: 'Postgres Config'
+  - variable: config.postgres.username
+    default: postgres
+    description: ''
+    type: string
+    required: true
+    label: username
+    show_if: config.postgres.internal=false
+    group: 'Postgres Config'
+
+# Persistence
+  - variable: persistence.enabled
+    default: false
+    description: ''
+    type: boolean
+    required: true
+    label: enabled
+    show_subquestion_if: true
+    group: Persistence
+    subquestions:
+      - variable: persistence.size
+        default: 10Gi
+        description: ''
+        type: string
+        required: true
+        show_if: persistence.enabled
+        label: size
+      - variable: persistence.storageClass
+        default: ''
+        description: ''
+        type: storageclass
+        required: false
+        show_if: persistence.enabled
+        label: 'storage class'
+      - variable: persistence.existingClaim
+        default: ''
+        description: ''
+        type: string
+        required: false
+        show_if: persistence.enabled
+        label: 'existing claim'
+      - variable: persistence.volbackBackup
+        default: false
+        description: ''
+        type: boolean
+        required: true
+        label: 'volback backup'
+
+# Services and Load Balancing
+  - variable: ingress.enabled
+    default: true
+    description: ''
+    type: boolean
+    label: 'ingress enabled'
+    show_subquestion_if: true
+    group: 'Services and Load Balancing'
+    subquestions:
+      - variable: ingress.tls
+        default: false
+        description: ''
+        type: boolean
+        required: true
+        label: 'ingress tls'
+      - variable: ingress.issuer.name
+        default: letsencrypt-staging
+        description: ''
+        type: enum
+        show_if: ingress.tls=true
+        options:
+          - letsencrypt-staging
+          - letsencrypt-prod
+        required: true
+        label: 'ingress issuer name'
+      - variable: ingress.hosts.kongcloak[0].name
+        default: xip.io
+        description: ''
+        type: hostname
+        required: true
+        label: 'kongcloak ingress hostname'
+      - variable: ingress.hosts.kongcloak[0].path
+        default: /
+        description: ''
+        type: string
+        required: true
+        label: 'kongcloak ingress path'
+  - variable: service.type
+    default: NodePort
+    description: ''
+    type: enum
+    show_if: ingress.enabled=false
+    options:
+      - ClusterIP
+      - NodePort
+      - LoadBalancer
+    required: true
+    label: 'service type'
+    show_subquestion_if: NodePort
+    group: 'Services and Load Balancing'
+    subquestions:
+      - variable: service.nodePorts.kong.http
+        default: ''
+        description: ''
+        type: int
+        min: 30000
+        max: 32767
+        show_if: ingress.enabled=false
+        label: 'kong http port'
+      - variable: service.nodePorts.konga.http
+        default: ''
+        description: ''
+        type: int
+        min: 30000
+        max: 32767
+        show_if: ingress.enabled=false
+        label: 'konga http port'
+      - variable: service.nodePorts.keycloak.http
+        default: ''
+        description: ''
+        type: int
+        min: 30000
+        max: 32767
+        show_if: ingress.enabled=false
+        label: 'keycloak http port'

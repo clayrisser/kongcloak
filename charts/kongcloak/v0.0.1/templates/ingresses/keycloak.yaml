@@ -31,4 +31,38 @@ spec:
       hosts:
         - {{ $host.name }}
   {{- end }}
+
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "kongcloak.fullname" $ }}-konga
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  {{- if (and $.Values.ingress.enabled $.Values.ingress.tls) }}
+    certmanager.k8s.io/cluster-issuer: {{ $.Values.ingress.issuer.name }}
+    kubernetes.io/tls-acme: 'true'
+    nginx.ingress.kubernetes.io/ssl-redirect: 'true'
+  {{- end }}
+  labels:
+    app: {{ template "kongcloak.name" $ }}-konga
+    chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+spec:
+  rules:
+    - host: {{ $host.name }}
+      http:
+        paths:
+          - path: {{ (eq $host.path "/") | ternary "" $host.path }}/konga(/|$)(.*)
+            backend:
+              serviceName: {{ template "kongcloak.fullname" $ }}-konga
+              servicePort: http
+  {{- if (and $.Values.ingress.enabled $.Values.ingress.tls) }}
+  tls:
+    - secretName: letsencrypt-staging
+      hosts:
+        - {{ $host.name }}
+  {{- end }}
 {{- end }}

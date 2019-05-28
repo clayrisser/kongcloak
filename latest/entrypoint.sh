@@ -1,11 +1,13 @@
 #!/bin/sh
 
-sleep 5
-if [ ! $(psql -h "$KONG_PG_HOST" -U "$KONG_PG_USER" -l | cut -d \| -f 1 | grep -w $KONG_PG_DATABASE) ]; then
-  psql -h "$KONG_PG_HOST" -U "$KONG_PG_USER" -c "CREATE DATABASE $KONG_PG_DATABASE;"
+alias psql_authed='psql -h "$KONG_PG_HOST" -U "$KONG_PG_USER" -p "$KONG_PG_PORT"'
+until psql_authed -c '\l' &>/dev/null; do
+  echo "waiting for postgres"
+  sleep 1
+done
+if [ ! $(psql_authed -l | cut -d \| -f 1 | grep -w $KONG_PG_DATABASE) ]; then
+  psql_authed -c "CREATE DATABASE $KONG_PG_DATABASE;"
 fi
-if [ ! $(psql -h "$KONG_PG_HOST" -U "$KONG_PG_USER" -c "\c $KONG_PG_DATABASE" -c "\dt" | cut -d \| -f 2 | grep -w profiles) ]; then
-  /docker-entrypoint.sh kong migrations up
-fi
+/docker-entrypoint.sh kong migrations up
 
 exec /docker-entrypoint.sh "$@"

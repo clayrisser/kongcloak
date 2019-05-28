@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ template "kongcloak.fullname" . }}-konga
-          image: {{ .Values.images.keycloak.repository }}:{{ .Values.images.keycloak.tag }}
-          imagePullPolicy: {{ .Values.images.keycloak.pullPolicy }}
+          image: {{ .Values.images.konga.repository }}:{{ .Values.images.konga.tag }}
+          imagePullPolicy: {{ .Values.images.konga.pullPolicy }}
           ports:
             - name: container
               containerPort: 1337

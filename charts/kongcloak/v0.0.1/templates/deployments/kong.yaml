@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
         - name: {{ template "kongcloak.fullname" . }}-kong
-          image: {{ .Values.images.keycloak.repository }}:{{ .Values.images.keycloak.tag }}
-          imagePullPolicy: {{ .Values.images.keycloak.pullPolicy }}
+          image: {{ .Values.images.kong.repository }}:{{ .Values.images.kong.tag }}
+          imagePullPolicy: {{ .Values.images.kong.pullPolicy }}
           ports:
             - name: container
               containerPort: 8000

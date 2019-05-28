@@ -2,7 +2,7 @@
 
 [![GitHub stars](https://img.shields.io/github/stars/codejamninja/charts.svg?style=social&label=Stars)](https://github.com/codejamninja/charts)
 
-> rancher 2 compatible helm charts
+> secure microservices with kong and keycloak
 
 Please ★ this repo if you found it useful ★ ★ ★
 
@@ -11,7 +11,6 @@ Please ★ this repo if you found it useful ★ ★ ★
 
 * compatible with rancher 2
 * follows the jam helm spec
-
 
 
 ## Dependencies

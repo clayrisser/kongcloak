@@ -196,18 +196,30 @@ questions:
           - letsencrypt-prod
         required: true
         label: 'ingress issuer name'
-      - variable: ingress.hosts.kongcloak[0].name
+      - variable: ingress.hosts.kong[0].name
         default: xip.io
         description: ''
         type: hostname
         required: true
-        label: 'kongcloak ingress hostname'
-      - variable: ingress.hosts.kongcloak[0].path
+        label: 'kong ingress hostname'
+      - variable: ingress.hosts.kong[0].path
         default: /
         description: ''
         type: string
         required: true
-        label: 'kongcloak ingress path'
+        label: 'kong ingress path'
+      - variable: ingress.hosts.konga[0].name
+        default: xip.io
+        description: ''
+        type: hostname
+        required: true
+        label: 'konga ingress hostname'
+      - variable: ingress.hosts.konga[0].path
+        default: /
+        description: ''
+        type: string
+        required: true
+        label: 'konga ingress path'
       - variable: ingress.hosts.keycloak[0].name
         default: xip.io
         description: ''

@@ -24,6 +24,8 @@ spec:
           env:
             - name: DB_ADAPTER
               value: postgres
+            - name: NODE_ENV
+              value: production
             - name: DB_DATABASE
               valueFrom:
                 configMapKeyRef:

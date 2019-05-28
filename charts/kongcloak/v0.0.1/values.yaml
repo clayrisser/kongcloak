@@ -45,7 +45,10 @@ ingress:
   issuer:
     name: letsencrypt-staging
   hosts:
-    kongcloak:
+    kong:
+      - name: ''
+        path: /
+    konga:
       - name: ''
         path: /
     keycloak:

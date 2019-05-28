@@ -208,6 +208,18 @@ questions:
         type: string
         required: true
         label: 'kongcloak ingress path'
+      - variable: ingress.hosts.keycloak[0].name
+        default: xip.io
+        description: ''
+        type: hostname
+        required: true
+        label: 'keycloak ingress hostname'
+      - variable: ingress.hosts.keycloak[0].path
+        default: /
+        description: ''
+        type: string
+        required: true
+        label: 'keycloak ingress path'
   - variable: service.type
     default: NodePort
     description: ''

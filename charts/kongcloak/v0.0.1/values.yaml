@@ -48,6 +48,9 @@ ingress:
     kongcloak:
       - name: ''
         path: /
+    keycloak:
+      - name: ''
+        path: /
 
 persistence:
   accessMode: ReadWriteOnce

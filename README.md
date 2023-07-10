@@ -4,6 +4,8 @@
 
 > secure microservices with kong and keycloak
 
+![](assets/kongcloak.png)
+
 Please ★ this repo if you found it useful ★ ★ ★
 
 
